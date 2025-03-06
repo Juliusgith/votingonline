@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %} <!-- Load the static template tag -->
+
+{% block title %}Register - Online Voting System{% endblock %}
+
+{% block content %}
+<!-- Custom CSS -->
+<style>
+    /* General Styles */
+    body {
+        background-color: #f8f9fa; /* Light background for the page */
+        margin: 0;
+        padding: 0;
+        height: 100vh; /* Full viewport height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        display: flex;
+        width: 100%;
+        max-width: 1200px; /* Adjust based on your preference */
+        height: 90vh; /* 90% of viewport height */
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    /* Left Side (Image or Content) */
+    .left-side {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8)), url("{% static 'images/house.jpeg' %}"); /* Updated path for background image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Ensures the background stays fixed while scrolling */
+    }
+
+    .left-side h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        background: rgba(0, 0, 0, 0.5); /* Semi-transparent background for text */
+        padding: 1rem;
+        border-radius: 5px;
+    }
+
+    /* Right Side (Form) */
+    .right-side {
+        flex: 1;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align content to the top */
+        overflow-y: auto; /* Enable scrolling for overflow content */
+    }
+
+    /* Form Header */
+    .right-side h2 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: #343a40;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    /* Input Fields */
+    .right-side input[type="text"],
+    .right-side input[type="email"],
+    .right-side input[type="password"] {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 1rem;
+        color: #495057;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .right-side input[type="text"]:focus,
+    .right-side input[type="email"]:focus,
+    .right-side input[type="password"]:focus {
+        border-color: #80bdff;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+    }
+
+    /* Error Messages */
+    .form-error {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Help Text */
+    .form-help {
+        color: #6c757d;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Register Button */
+    .right-side .btn {
+        width: 100%;
+        padding: 0.75rem;
+        font-size: 1rem;
+        font-weight: 600;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .right-side .btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Links */
+    .right-side a {
+        color: #007bff;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .right-side a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    /* Responsive Design for Small Devices */
+    @media (max-width: 768px) {
+        body {
+            height: auto; /* Allow body to grow with content */
+            padding: 1rem; /* Add padding for small screens */
+        }
+
+        .container {
+            flex-direction: column; /* Stack left and right sections vertically */
+            height: auto; /* Allow container to grow with content */
+            margin: 0; /* Remove margin for small screens */
+        }
+
+        .left-side {
+            height: 200px; /* Fixed height for the image section */
+            padding: 1rem; /* Reduce padding for small screens */
+        }
+
+        .left-side h2 {
+            font-size: 1.5rem; /* Reduce font size for small screens */
+            padding: 0.5rem; /* Reduce padding for small screens */
+        }
+
+        .right-side {
+            padding: 1.5rem; /* Reduce padding for small screens */
+        }
+
+        .right-side h2 {
+            font-size: 1.75rem; /* Reduce font size for small screens */
+        }
+
+        .right-side input[type="text"],
+        .right-side input[type="email"],
+        .right-side input[type="password"] {
+            font-size: 0.875rem; /* Reduce font size for small screens */
+        }
+
+        .right-side .btn {
+            font-size: 0.875rem; /* Reduce font size for small screens */
+        }
+    }
+</style>
+
+<!-- Main Container -->
+<div class="container">
+    <!-- Left Side (Image or Content) -->
+    <div class="left-side">
+        <h2>Welcome to Our Voting System</h2>
+    </div>
+
+    <!-- Right Side (Form) -->
+    <div class="right-side">
+        <h2>Create an Account</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Loop through form fields -->
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="form-error">
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <small class="form-help">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <!-- Register Button -->
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <!-- Login Link -->
+        <p class="text-center mt-3">
+            Already have an account? <a href="{% url 'login' %}">Login here</a>
+        </p>
+
+        <!-- Home Link -->
+        <p class="text-center mt-2">
+            <a href="{% url 'home' %}">← Back to Home</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

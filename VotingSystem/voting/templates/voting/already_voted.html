@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Already Voted - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card text-center p-4 shadow-lg" style="max-width: 500px;">
+        <h1 class="text-danger">🛑 You Have Already Voted</h1>
+        <p class="text-muted">Thank you for participating in the election. Each user is allowed to vote only once.</p>
+        <a href="{% url 'dashboard' %}" class="btn btn-primary mt-3">Return to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

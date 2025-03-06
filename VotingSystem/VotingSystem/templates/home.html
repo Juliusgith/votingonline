@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %} <!-- Load the static template tag -->
+
+{% block title %}Home - University Voting System{% endblock %}
+
+{% block content %}
+<!-- Background Image Section -->
+<style>
+    body {
+        background: linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8)), url("{% static 'images/house.jpeg' %}"); /* Updated path for background image */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* Ensures the background stays fixed while scrolling */
+    }
+    .jumbotron {
+        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for readability */
+        border-radius: 10px;
+    }
+    .footer {
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for footer */
+        color: white;
+    }
+</style>
+
+<!-- Logo Section -->
+<div class="container text-center mt-4">
+    <img src="{% static 'images/LOGO.jpg' %}" alt="University Logo" class="img-fluid" style="max-height: 100px;"> <!-- Updated path for logo -->
+</div>
+
+<!-- Hero Section -->
+<div class="jumbotron bg-light p-5 rounded shadow-sm mb-5">
+    <h1 class="display-4 text-center text-primary">Welcome to I.T Student's Association Online Voting System</h1>
+    <p class="lead text-center text-muted">A secure platform for conducting elections and making your voice heard.</p>
+    <hr class="my-4">
+    <p class="text-center text-muted">Participate in elections, run for positions, and help shape the future of our I.T Students Association</p>
+
+    <!-- Buttons Section -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg me-md-2">
+            <i class="fas fa-user-plus me-2"></i>Register Now
+        </a>
+        <a href="{% url 'login' %}" class="btn btn-outline-primary btn-lg">
+            <i class="fas fa-sign-in-alt me-2"></i>Login
+        </a>
+    </div>
+</div>
+
+<!-- Additional Information Section -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h3 class="mb-4 text-primary">Why Use Our Platform?</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item bg-light"><i class="fas fa-check-circle me-2 text-success"></i>Secure and Reliable</li>
+                <li class="list-group-item bg-light"><i class="fas fa-check-circle me-2 text-success"></i>Easy to Use</li>
+                <li class="list-group-item bg-light"><i class="fas fa-check-circle me-2 text-success"></i>Transparent Voting Process</li>
+                <li class="list-group-item bg-light"><i class="fas fa-check-circle me-2 text-success"></i>Real-Time Results</li>
+            </ul>
+        </div>
+        <div class="col-md-6 mb-4">
+            <h3 class="mb-4 text-primary">How It Works</h3>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item bg-light">Register as a voter or candidate.</li>
+                <li class="list-group-item bg-light">Login to access the voting dashboard.</li>
+                <li class="list-group-item bg-light">Cast your vote securely and transparently.</li>
+                <li class="list-group-item bg-light">View real-time results after the election concludes.</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container text-center">
+        <p class="mb-0">&copy; {% now "Y" %} Online Voting System. All rights reserved.</p>
+    </div>
+</footer>
+{% endblock %}

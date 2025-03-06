@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Vote - Online Voting System{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-lg">
+        <h1 class="text-center text-primary">🗳️ Vote for Your Candidate</h1>
+        <p class="text-center text-muted">Select your preferred candidate and submit your vote.</p>
+
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            
+            <div class="row">
+                {% for candidate in candidates %}
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card candidate-card text-center shadow-sm p-3">
+                            <img src="{{ candidate.photo.url }}" alt="{{ candidate.name }}" class="candidate-img rounded-circle mb-3">
+                            <h2 class="h5">{{ candidate.name }}</h2>
+                            <p class="text-muted">{{ candidate.details }}</p>
+                            <input type="radio" name="candidate" value="{{ candidate.id }}" id="candidate{{ candidate.id }}">
+                            <label for="candidate{{ candidate.id }}" class="btn btn-outline-primary mt-2">Vote for {{ candidate.name }}</label>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success btn-lg mt-3">Submit Vote</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    /* Candidate Card Styling */
+.candidate-card {
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.candidate-card:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+}
+
+/* Candidate Image Styling */
+.candidate-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 4px solid #007bff;
+    transition: 0.3s ease;
+}
+
+.candidate-card:hover .candidate-img {
+    border-color: #0056b3;
+}
+
+</style>
+{% endblock %}

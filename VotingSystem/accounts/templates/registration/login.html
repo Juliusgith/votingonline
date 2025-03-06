@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - Online Voting System{% endblock %}
+
+{% block content %}
+<style>
+    /* Enhanced Theme Colors */
+    :root {
+        --primary: #0d6efd;
+        --secondary: #6c757d;
+        --success: #198754;
+        --danger: #dc3545;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        background: linear-gradient(135deg, var(--light-bg), #e9ecef);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .login-container {
+        display: flex;
+        width: 100%;
+        max-width: 900px;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: all 0.3s ease;
+    }
+
+    .login-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Image Section */
+    .image-section {
+        flex: 1;
+        background: linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8)), url("{% static 'images/login.jpg' %}") no-repeat center center/cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--white);
+        text-align: center;
+        padding: 2rem;
+    }
+
+    .image-section h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .image-section p {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .image-section a {
+        color: var(--white);
+        font-weight: 600;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .image-section a:hover {
+        color: var(--primary);
+    }
+
+    /* Form Section */
+    .form-section {
+        flex: 1;
+        background: var(--white);
+        padding: 3rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-section h2 {
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 2.5rem;
+        text-align: center;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form Fields Styling */
+    .form-group {
+        width: 100%;
+        margin-bottom: 1.8rem;
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        background: #f2f3f5;
+        border: none;
+        border-radius: 8px;
+        padding: 12px 16px;
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    input:focus {
+        box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+        outline: none;
+        background: #ffffff;
+    }
+
+    /* Buttons */
+    .btn {
+        background: linear-gradient(45deg, var(--primary), #0056b3);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        margin-top: 1.5rem;
+        width: 100%;
+    }
+
+    .btn:hover {
+        background: linear-gradient(135deg, var(--primary), #0056b3);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+    }
+
+    /* Alerts */
+    .messages .alert {
+        margin-bottom: 1.5rem;
+        padding: 12px 18px;
+        border-radius: 8px;
+        width: 100%;
+    }
+
+    .alert-success {
+        background: linear-gradient(45deg, #d1e7dd, #c8e6c9);
+        border-color: #4CAF50;
+    }
+
+    .alert-error {
+        background: linear-gradient(45deg, #fde2e3, #f8d7da);
+        border-color: #dc3545;
+    }
+
+    /* Links */
+    a {
+        color: var(--primary);
+        transition: color 0.3s ease;
+    }
+
+    a:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .login-container {
+            flex-direction: column;
+        }
+
+        .image-section,
+        .form-section {
+            flex: unset;
+        }
+
+        .image-section {
+            height: 200px;
+            padding: 1rem;
+        }
+
+        .image-section h2 {
+            font-size: 1.5rem;
+        }
+
+        .form-section {
+            padding: 2rem;
+        }
+    }
+</style>
+
+<!-- Login Container -->
+<div class="login-container">
+    <!-- Image Section -->
+    <div class="image-section">
+        <h2>Welcome to the<br>Online Voting System</h2>
+        <p>Secure, Transparent, and Easy-to-Use</p>
+        <a href="{% url 'home' %}">Go to Home</a>
+    </div>
+
+    <!-- Form Section -->
+    <div class="form-section">
+        <h2>Login to Vote</h2>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div class="form-error alert alert-error mt-2">
+                            {{ field.errors|striptags }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p class="text-center mt-4">
+            New user? <a href="{% url 'register' %}">Register here</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
